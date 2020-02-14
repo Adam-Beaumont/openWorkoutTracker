@@ -38,6 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.humanize',
+    'widget_tweaks',
+    'allauth',
+    'allauth.account',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +88,10 @@ DATABASES = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -119,3 +130,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+# LOGIN_REDIRECT_URL = 'index'
+# LOGIN_URL = 'index'
+# LOGOUT_URL = 'index'
+# ACCOUNT_LOGOUT_REDIRECT_URL = 'index'
+# LOGIN_REDIRECT_URL = 'index'
+# LOGIN_URL = 'account_login'
+# LOGOUT_URL = 'account_logout'
+# ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'

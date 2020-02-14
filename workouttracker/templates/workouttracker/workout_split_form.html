@@ -1,0 +1,224 @@
+{% extends 'workouttracker/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content_header %}
+<h1>Workouts
+  <small>
+    {% if object %}
+    Edit {{ object.title }}
+    {% else %}
+    Add new {{ submenu }}
+    {% endif %}
+  </small>
+</h1>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="/">Home</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'workouts' %}">Workouts</a></li>
+  {% if object %}
+  <li class="breadcrumb-item"><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+  <li class="breadcrumb-item active">Edit</li>
+  {% else %}
+  <li class="breadcrumb-item active">Create</li>
+  {% endif %}
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header with-border">
+    <h3 class="card-title">Workout Details</h3>
+  </div>
+  <div class="card-body">
+    <form method="post" class="form-horizontal">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group{% if field.errors %} has-error{% endif %}">
+          <label class="col-sm-2 control-label" for="{{ field.id_for_label }}">{{ field.label }}
+          </label>
+          <div class="col-sm-8">
+            {% if field|widget_type == 'dateinput' %}
+            {{ field|add_class:"form-control dateinput" }}
+            {% else %}
+            {{ field|add_class:"form-control" }}
+            {% endif %}
+            {% for error in field.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+      <br>
+      {% for error in form.non_field_errors %}
+      {{ error }}
+      {% endfor %}
+      <br>
+      <div class="card-header with-border">
+        <h3 class="card-title">Add Exercises</h3>
+      </div>
+      <table class="table">
+      {% for field in exerciseSelect.visible_fields %}
+      <td class="form-group{% if field.errors %} has-error{% endif %}">
+        {{ field|add_class:"form-control" }}
+      </td>
+      {% endfor %}
+      <table class="table table-striped">
+        <tr>
+          <th>Description</th>
+          <th>Sets</th>
+          <th>Reps</th>
+        </tr> 
+         <tr>
+          <td id="selected_exercise_description"></td>
+          <td id="selected_exercise_sets"></td>
+          <td id="selected_exercise_reps"></td>
+         </tr>
+      </table>
+      <td>
+        <a id="add-workoutexercises" class="btn btn-info">Add Existing Exercise</a>
+        <a id="add-workoutexercises-empty" class="btn btn-info">Add New Exercise</a>
+      </td>
+      </table>
+      <div class="card-header with-border">
+        <h3 class="card-title">Workout Exercises</h3>
+      </div>
+      {{ formset.management_form }}
+      <table id="formset" class="table">
+        {% for workoutexercises in formset %}
+        {% if forloop.first %}
+        <tr>
+          {% for field in workoutexercises.visible_fields %}
+          <th>{{ field.label }}</th>
+          {% endfor %}
+        </tr>
+        {% endif %}
+        <tr >
+          {% for field in workoutexercises.visible_fields %}
+          {% if field|widget_type == 'checkboxinput' %}
+          <td class="text-center">{{ field }}</td>
+          {% else %}
+          <td class="form-group{% if field.errors %} has-error{% endif %}">
+            {% if field|widget_type == 'dateinput' %}
+            {{ field|add_class:"form-control dateinput" }}
+            {% else %}
+            {{ field|add_class:"form-control" }}
+            {% endif %}
+          </td>
+          {% endif %}
+          {% endfor %}
+          {% for field in workoutexercises.hidden_fields %}
+          {{ field }}
+          {% endfor %}
+        </tr>
+        {% if workoutexercises.errors %}
+        <tr>
+          {% for error in workoutexercises.errors %}
+          <span class="help-block">{{ error }}</span>
+          {% endfor %}
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </table>
+      <p id="no-exercises" style="text-align: center">You haven't added any exercises to this Workout yet.</p>
+      <button type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %}</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'vendor/css/bootstrap-datepicker.min.css' %}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'vendor/js/bootstrap-datepicker.min.js' %}"></script>
+<script>
+    var exercises = '{{ exercises|escapejs }}'
+    var exerciseData
+    var parsedEx = jQuery.parseJSON(exercises)
+    var sel_ex_desc = $('#selected_exercise_description')
+    var sel_ex_sets = $('#selected_exercise_sets')
+    var sel_ex_reps = $('#selected_exercise_reps')
+
+
+    $('#id_existing_exercises').change( function() {
+        for ( x in parsedEx['py/state']['_result_cache'])
+        {
+          exerciseData = parsedEx['py/state']['_result_cache'][x]['py/reduce'][2];
+          var selectExercise = $('#id_existing_exercises')[0]['selectedOptions'][0]['label'];
+
+          if(selectExercise == exerciseData.title)
+          {
+            break;
+          }
+        }
+        console.log('desc'+exerciseData.description)
+ 
+        sel_ex_desc.html(exerciseData.description)
+        sel_ex_sets.html(exerciseData.sets)
+        sel_ex_reps.html(exerciseData.reps)
+     })
+
+function cloneMore(selector, isEmpty) {
+    var newElement = $(selector).clone(true);
+    noExercise()
+    var total = $('#id_workoutexercises-TOTAL_FORMS').val();
+    // var selectedExercise =
+    newElement.css('display','table-row')
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name').replace('-' + (total - 1) + '-','-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+        if (isEmpty == false){
+          if( name=='workoutexercises-'+total+'-title') $(this).attr({'name': name, 'id': id}).val(exerciseData.title).removeAttr('checked');
+          if( name=='workoutexercises-'+total+'-description') $(this).attr({'name': name, 'id': id}).val(exerciseData.description).removeAttr('checked');
+          if( name=='workoutexercises-'+total+'-reps') $(this).attr({'name': name, 'id': id}).val(exerciseData.reps).removeAttr('checked');
+          if( name=='workoutexercises-'+total+'-sets') $(this).attr({'name': name, 'id': id}).val(exerciseData.sets).removeAttr('checked');
+        } else {
+          if( isEmpty==true ) $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+        }
+    });
+    newElement.find('.dateinput').each(function() {
+        $(this).attr("id", "").removeData().off();
+        $(this).find('.add-on').removeData().off();
+        $(this).find('input').removeData().off();
+        $(this).datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+            disableTouchKeyboard: true
+          });
+    });
+    newElement.find('label').each(function() {
+        var newFor = $(this).attr('for').replace('-' + (total - 1) + '-','-' + total + '-');
+        $(this).attr('for', newFor);
+    });
+    $('#id_workoutexercises-TOTAL_FORMS').val(++total);
+    $(selector).after(newElement);
+}
+
+  function noExercise(){
+    var noEx = $('#no-exercises')
+    
+    noEx.css('display','none')
+  }
+$(function() {
+  if( $('#id_workoutexercises-INITIAL_FORMS').val() > 0){
+    noExercise()
+  }
+
+  $('#formset tr:last').css('display','none')   
+  $('.dateinput').datepicker({
+    autoclose: true,
+    format: 'yyyy-mm-dd',
+    disableTouchKeyboard: true
+  });
+  $('.dateinput').attr('autocomplete', 'off');
+  $('#add-workoutexercises').click(function() {
+    cloneMore('#formset tr:last', false);
+  });
+  $('#add-workoutexercises-empty').click(function() {
+    cloneMore('#formset tr:last', true);
+  });
+});
+</script>
+{% endblock %}

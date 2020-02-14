@@ -1,0 +1,98 @@
+{% extends 'workouttracker/base.html' %}
+{% load static %}
+{% load tags %}
+{% load humanize %}
+
+{% block content_header %}
+<h1>Home
+  <small>Overview</small>
+</h1>
+<ol class="breadcrumb">
+  <li class="active">Home</li>
+</ol>
+{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-3">
+    <div class="small-box bg-green">
+      <div class="inner">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="small-box bg-yellow">
+      <div class="inner">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="small-box bg-red">
+      <div class="inner">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="small-box bg-blue">
+      <div class="inner">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-4 col-md-push-8">
+    <div class="card">
+      <div class="card-content">
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Workouts</h3>
+      </div>
+      <div class="card-body">
+        <table class="table">
+        <tr>
+        <th>Workouts</th>
+        </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8 col-md-pull-4">
+    <div class="card">
+      <div class="card-header">
+      </div>
+      <div class="card-body">
+        <canvas id="myChart" width="450" height="250"></canvas>
+      </div>
+    </div>
+ 
+    <div class="card">
+      <div class="card-header with-border">
+        <h3 class="card-title">Progress</h3>
+      </div>
+      <div class="card-body">
+    
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header with-border">
+        <h3 class="card-title">History</h3>
+      </div>
+      <div class="card-body">
+        
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'vendor/js/Chart.bundle.min.js' %}"></script>
+<script type="text/javascript">
+
+</script>
+{% endblock %}
