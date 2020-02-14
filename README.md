@@ -1,2 +1,44 @@
-# openWorkoutTracker
-Open source django based workout and exercise tracking app
+[![License][license-shield]][license-uri]
+
+<h1 align="center">openWorkoutTracker</h1>
+  <p align="center">
+    Open source django based workout and exercise tracking app.
+    <br />
+    <a href="http://adam-beaumont.com>View Demo</a>
+  </p>
+
+<!-- MarkdownTOC autolink="true" -->
+
+- [About openWorkoutTracker](#about-openworkouttracker)
+  - [Purpose](#purpose)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+
+<!-- /MarkdownTOC -->
+
+## About openWorkoutTracker
+
+openWorkoutTracker is a django-built webapp for managing your exercise and fitness routines and goals. It allows you to organize your fitness routines and record your workouts by date. 
+
+openWorkoutTracker allows you to visualize your progress and keep you on track. It also includes built in exercises that you can include in your workouts or routines, and allows you to add your own if you want.
+
+### Purpose
+
+There are many apps that provide the same functionality as openWorkoutTracker, however I have found that most of them are either riddled with ads, or require you to pay either a one off fee or even regularly through a subscription service. This lead me to create openWorkoutTracker to allow people to get the same service through a self hosted webapp.
+
+## Contributing
+
+Contributions to openWorkoutTracker are allowed! Please feel free to help with the development of openWorkoutTracker by opening issues, or contributing code. Feature requests are also welcome.
+
+## License
+
+This work [is licensed](https://github.com/Adam-Beaumont/openWorkoutTracker/blob/master/LICENSE) under the [MIT](https://opensource.org/licenses/MIT) License
+
+## Contact
+
+You can reach me at [adam-beaumont@hotmail.com](mailto:adam-beaumont@hotmail.com)
+
+[license-shield]: https://img.shields.io/badge/license-MIT-green
+[license-uri]: https://opensource.org/licenses/MIT
