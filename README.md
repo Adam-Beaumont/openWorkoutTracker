@@ -28,6 +28,18 @@ OpenWorkoutTracker allows you to visualize your progress and keep you on track. 
 
 There are many apps that provide the same functionality as OpenWorkoutTracker, however I have found that most of them are either riddled with ads, or require you to pay either a one off fee or even regularly through a subscription service. This lead me to create openWorkoutTracker to allow people to get the same service through a self hosted webapp.
 
+## Tech Stack
+
+-Python & Django
+-Bootstrap 4
+-HTML5, JS&JQuery
+
+## Features
+
+-Secure multi-user web app with authentication via Django Allauth
+-Highly responsive design suitable for use on mobile phones or desktop computers
+-Includes a REST api
+
 ## Contributing
 
 Contributions to OpenWorkoutTracker are allowed! Please feel free to help with the development of OpenWorkoutTracker by opening issues, or contributing code. Feature requests are also welcome.
