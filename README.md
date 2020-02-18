@@ -30,15 +30,15 @@ There are many apps that provide the same functionality as OpenWorkoutTracker, h
 
 ## Tech Stack
 
--Python & Django
--Bootstrap 4
--HTML5, JS&JQuery
+- Python & Django
+- Bootstrap 4
+- HTML5, JS&JQuery
 
 ## Features
 
--Secure multi-user web app with authentication via Django Allauth
--Highly responsive design suitable for use on mobile phones or desktop computers
--Includes a REST api
+- Secure multi-user web app with authentication via Django Allauth
+- Highly responsive design suitable for use on mobile phones or desktop computers
+- Includes a REST api
 
 ## Contributing
 
