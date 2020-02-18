@@ -1,6 +1,6 @@
 [![License][license-shield]][license-uri]
 
-<h1 align="center">openWorkoutTracker</h1>
+<h1 align="center">OpenWorkoutTracker</h1>
   <p align="center">
     Open source django based workout and exercise tracking app.
     <br />
