@@ -18,19 +18,19 @@
 
 <!-- /MarkdownTOC -->
 
-## About openWorkoutTracker
+## About OpenWorkoutTracker
 
-openWorkoutTracker is a django-built webapp for managing your exercise and fitness routines and goals. It allows you to organize your fitness routines and record your workouts by date. 
+OpenWorkoutTracker is a django-built webapp for managing your exercise and fitness routines and goals. It allows you to organize your fitness routines and record your workouts by date. 
 
-openWorkoutTracker allows you to visualize your progress and keep you on track. It also includes built in exercises that you can include in your workouts or routines, and allows you to add your own if you want.
+OpenWorkoutTracker allows you to visualize your progress and keep you on track. It also includes built in exercises that you can include in your workouts or routines, and allows you to add your own if you want.
 
 ### Purpose
 
-There are many apps that provide the same functionality as openWorkoutTracker, however I have found that most of them are either riddled with ads, or require you to pay either a one off fee or even regularly through a subscription service. This lead me to create openWorkoutTracker to allow people to get the same service through a self hosted webapp.
+There are many apps that provide the same functionality as OpenWorkoutTracker, however I have found that most of them are either riddled with ads, or require you to pay either a one off fee or even regularly through a subscription service. This lead me to create openWorkoutTracker to allow people to get the same service through a self hosted webapp.
 
 ## Contributing
 
-Contributions to openWorkoutTracker are allowed! Please feel free to help with the development of openWorkoutTracker by opening issues, or contributing code. Feature requests are also welcome.
+Contributions to OpenWorkoutTracker are allowed! Please feel free to help with the development of OpenWorkoutTracker by opening issues, or contributing code. Feature requests are also welcome.
 
 ## License
 
