@@ -14,7 +14,7 @@
     {% block stylesheets %}
     {% endblock %}
 
-    <script src="{% static 'workouttracker/js/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/js/jquery.min.js' %}"></script>
 
     <link rel="stylesheet" href="{% static 'vendor/css/font-awesome.min.css' %}">
       <!-- Font Awesome Icons -->
@@ -100,18 +100,18 @@
             </li>
             <li class="nav-item"">
               <a href="{% url 'workouts' %}" class="nav-link" >
-                <i class="fa fa-exchange fa-fw"></i>
+                <i class="fa fa-fist-raised fa-fw"></i>
                 <p>Workouts</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{% url 'routines' %}" class="nav-link">
-                <i class="fa fa-exchange fa-fw"></i>
+                <i class="fa fa-redo-alt fa-fw"></i>
                 <p>Routines</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'exercises' %}" class="nav-link"><i class="fa fa-repeat"></i>
+              <a href="{% url 'exercises' %}" class="nav-link"><i class="fa fa-dumbbell fa-fw"></i>
                 <p>Exercises</p>
               </a>
             </li>

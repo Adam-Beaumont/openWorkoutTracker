@@ -1,0 +1,22 @@
+{% extends '_plain.html' %}
+{% load static %}
+{% load account %}
+{% load widget_tweaks %}
+{% block title %}OpenWorkoutTracker | Sign out{% endblock %}
+{% block content %}
+<div class="login-box">
+  <div class="login-logo">
+    <b>OpenWorkoutTracker</b> <br/><small>Sign out</small>
+  </div>
+  <div class="login-box-body">
+    <p class="login-box-msg">Are you sure you want to sign out?</p>
+    <form method="post" action="{% url 'account_logout' %}">
+      {% csrf_token %}
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+      {% endif %}
+      <button class="btn btn-primary btn-block btn-flat" type="submit">Sign Out</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

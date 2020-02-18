@@ -18,7 +18,7 @@ router.register(r'workouts', rest_views.WorkoutViewSet)
 urlpatterns = [
     path('', general_views.IndexView.as_view(), name='index'),
 
-    path('auth/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')),
 
     path('routines/', routine_views.RoutineIndex.as_view(), name='routines'),
     path('workouts/', workout_views.WorkoutIndex.as_view(), name='workouts'),

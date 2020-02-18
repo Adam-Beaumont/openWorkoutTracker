@@ -2,8 +2,10 @@ from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from django.db import models
+from django import forms
 from django.urls import reverse
 from django.utils.translation import gettext as _
+from django.contrib.auth.models import User
 
 class RoutineQuerySet(models.QuerySet):
     def last_10(self):
@@ -15,6 +17,7 @@ class Routine(models.Model):
     name = models.CharField(max_length=64)
     description = models.TextField(blank=True, null=True)
     last_modified = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     objects = RoutineQuerySet.as_manager()
 
     class Meta:
@@ -34,6 +37,7 @@ class Workout(models.Model):
     date = models.DateField(default=date.today)
     description = models.TextField(blank=True, null=True)
     last_modified = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     objects = RoutineQuerySet.as_manager()
 
     class Meta:
@@ -59,6 +63,7 @@ class Exercise(models.Model):
     description = models.TextField(blank=True, null=True)
     sets = models.IntegerField(blank=True, null=True)
     reps = models.IntegerField(blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     objects = ExerciseQuerySet.as_manager()
 
     def __str__(self):
@@ -81,6 +86,7 @@ class RoutineExercise(models.Model):
     reps = models.IntegerField(blank=True, null=True)
     routine = models.ForeignKey(Routine, models.CASCADE, related_name='routineexercises',
                                     blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     objects = RoutineExerciseQuerySet.as_manager()
 
     def __str__(self):
@@ -106,6 +112,7 @@ class WorkoutExercise(models.Model):
     reps = models.IntegerField(blank=True, null=True)
     workout = models.ForeignKey(Workout, models.CASCADE, related_name='workoutexercises',
                                     blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     objects = RoutineExerciseQuerySet.as_manager()
 
     def __str__(self):

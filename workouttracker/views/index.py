@@ -8,8 +8,7 @@ from rest_framework.authtoken.models import Token as AuthToken
 from workouttracker.lib import last_day_of_month
 
 
-# class IndexView(LoginRequiredMixin, generic.TemplateView):
-class IndexView(generic.TemplateView):
+class IndexView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'workouttracker/index.html'
 
     def get_context_data(self, **kwargs):

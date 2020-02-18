@@ -57,11 +57,19 @@
         <h3 class="card-title">Add Exercises</h3>
       </div>
       <table class="table">
-      {% for field in exerciseSelect.visible_fields %}
       <td class="form-group{% if field.errors %} has-error{% endif %}">
-        {{ field|add_class:"form-control" }}
+        <select name="existing_exercises" required id="id_existing_exercises" class = "form-control">
+          <option>
+            ------
+          </option>
+        {% for exercise in exerciseSelect %}
+          <option >
+          {{ exercise }}
+          </option>
+        {% endfor %}
+      </select>
       </td>
-      {% endfor %}
+
       <table class="table table-striped">
         <tr>
           <th>Description</th>

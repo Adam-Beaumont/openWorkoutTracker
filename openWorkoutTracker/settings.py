@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
 
 # Application definition
 
@@ -134,7 +135,22 @@ STATIC_URL = '/static/'
 # LOGIN_URL = 'index'
 # LOGOUT_URL = 'index'
 # ACCOUNT_LOGOUT_REDIRECT_URL = 'index'
-# LOGIN_REDIRECT_URL = 'index'
-# LOGIN_URL = 'account_login'
-# LOGOUT_URL = 'account_logout'
-# ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+LOGIN_REDIRECT_URL = 'index'
+LOGIN_URL = 'account_login'
+LOGOUT_URL = 'account_logout'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
+    )
+}

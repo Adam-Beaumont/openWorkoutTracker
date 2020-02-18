@@ -10,8 +10,7 @@ from workouttracker.models import Exercise
 # from workouttracker.lib import last_day_of_month
 
 
-# class ExerciseDetailView(LoginRequiredMixin, generic.DetailView):
-class ExerciseDetailView(generic.DetailView):
+class ExerciseDetailView(LoginRequiredMixin, generic.DetailView):
     model = Exercise
     context_object_name = 'exercise'
     def get_context_data(self, **kwargs):
@@ -20,8 +19,7 @@ class ExerciseDetailView(generic.DetailView):
         return context
 
 
-# class ExerciseDeleteView(LoginRequiredMixin, generic.edit.DeleteView):
-class ExerciseDeleteView(generic.edit.DeleteView):
+class ExerciseDeleteView(LoginRequiredMixin, generic.edit.DeleteView):
     model = Exercise
     success_url = reverse_lazy('exercises')
 
@@ -31,11 +29,11 @@ class ExerciseDeleteView(generic.edit.DeleteView):
         return context
 
 
-# class ExerciseIndex(LoginRequiredMixin, generic.ListView):
-class ExerciseIndex(generic.ListView):
+class ExerciseIndex(LoginRequiredMixin, generic.ListView):
     template_name = 'workouttracker/exercises_overview.html'
     context_object_name = 'exercises'
-    queryset = Exercise.objects.select_related()
+    def get_queryset(self):
+        return Exercise.objects.filter(user=self.request.user).select_related()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,8 +43,7 @@ class ExerciseIndex(generic.ListView):
         return context
 
 
-# class ExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
-class ExerciseCreate(generic.edit.CreateView):
+class ExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
     model = Exercise
     template_name = 'workouttracker/exercise_form.html'
     form_class = ExerciseForm
@@ -60,13 +57,13 @@ class ExerciseCreate(generic.edit.CreateView):
 
         if form.is_valid():
             exercise = form.save(commit=False)
+            exercise.user = self.request.user
             exercise.save()
             return HttpResponseRedirect(reverse('exercises'))
         return self.render_to_response(self.get_context_data(form=form))
 
 
-# class ExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
-class ExerciseUpdate(generic.edit.UpdateView):
+class ExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
     model = Exercise
     template_name = 'workouttracker/exercise_form.html'
     fields = '__all__'

@@ -9,8 +9,7 @@ from workouttracker.models import Exercise, Routine, RoutineExercise
 import jsonpickle
 from collections import namedtuple
 
-# class RoutineIndex(LoginRequiredMixin, generic.ListView):
-class RoutineIndex(generic.ListView):
+class RoutineIndex(LoginRequiredMixin, generic.ListView):
     template_name = 'workouttracker/routine_overview.html'
     context_object_name = 'routines'
     model = Routine
@@ -37,24 +36,23 @@ class RoutineIndex(generic.ListView):
         for routine in routines:
             entry = self.routineEntry()
             entry.name = routine
-            entry.exercises = RoutineExercise.objects.filter(routine_id=routine.id)
+            entry.exercises = RoutineExercise.objects.filter(user=self.request.user).filter(routine_id=routine.id)
             routinesList.append({"name": routine, "id": routine.id, "exercises": RoutineExercise.objects.filter(routine_id=routine.id)})
 
         context['routinesList'] = routinesList
     
         return context
 
-# class RoutineExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
-class RoutineExerciseCreate(generic.edit.CreateView):
+class RoutineExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
     model = Routine
     template_name = 'workouttracker/routine_split_form.html'
     formset_class = RoutineFormSet
-    fields = '__all__'
+    fields = {'name','description'}
 
     def get_context_data(self, **kwargs):
         context = super(RoutineExerciseCreate, self).get_context_data(**kwargs)
-        context['exerciseSelect'] = ExerciseSelectForm
-        context['exercises'] = jsonpickle.encode(Exercise.objects.all())
+        context['exerciseSelect'] = Exercise.objects.filter(user=self.request.user).all()
+        context['exercises'] = jsonpickle.encode(Exercise.objects.filter(user=self.request.user).all())
         context['formset'] = self.formset_class()
         return context
 
@@ -65,13 +63,13 @@ class RoutineExerciseCreate(generic.edit.CreateView):
             routine = form.save(commit=False)
             formset = self.formset_class(self.request.POST, instance=routine)
             if formset.is_valid():
+                routine.user = self.request.user
                 routine.save()
                 formset.save()
                 return HttpResponseRedirect(reverse('routines'))
         return self.render_to_response(self.get_context_data(form=form))
 
-# class RoutineExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
-class RoutineExerciseUpdate(generic.edit.UpdateView):
+class RoutineExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
     model = Routine
     template_name = 'workouttracker/routine_split_form.html'
     formset_class = RoutineFormSet
@@ -79,8 +77,8 @@ class RoutineExerciseUpdate(generic.edit.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(RoutineExerciseUpdate, self).get_context_data(**kwargs)
-        context['exerciseSelect'] = ExerciseSelectForm
-        context['exercises'] = jsonpickle.encode(Exercise.objects.all())
+        context['exerciseSelect'] = Exercise.objects.filter(user=self.request.user).all()
+        context['exercises'] = jsonpickle.encode(Exercise.objects.filter(user=self.request.user).all())
         context['formset'] = self.formset_class(**self.get_form_kwargs())
         return context
 
@@ -92,6 +90,7 @@ class RoutineExerciseUpdate(generic.edit.UpdateView):
             routine = form.save(commit=False)
             formset = self.formset_class(self.request.POST, instance=routine)
             if formset.is_valid():
+                routine.user = self.request.user
                 routine.save()
                 formset.save()
                 return HttpResponseRedirect(reverse('routines'))
