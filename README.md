@@ -50,7 +50,7 @@ This work [is licensed](https://github.com/Adam-Beaumont/openWorkoutTracker/blob
 
 ## Contact
 
-You can reach me at [adam-beaumont@hotmail.com](mailto:adam-beaumont@hotmail.com)
+You can reach me at [adam-beaumont@hotmail.com](mailto:adam-beaumont@hotmail.com), or visit my portfolio at [adam-beaumont.com](https://adam-beaumont.com/)
 
 [license-shield]: https://img.shields.io/badge/license-MIT-green
 [license-uri]: https://opensource.org/licenses/MIT
