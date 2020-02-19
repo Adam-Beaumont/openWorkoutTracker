@@ -65,7 +65,10 @@ class RoutineExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
             if formset.is_valid():
                 routine.user = self.request.user
                 routine.save()
-                formset.save()
+                new_instances = formset.save(commit=False)
+                for new_instance in new_instances:
+                    new_instance.user = self.request.user
+                    new_instance.save()
                 return HttpResponseRedirect(reverse('routines'))
         return self.render_to_response(self.get_context_data(form=form))
 

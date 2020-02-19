@@ -1,7 +1,7 @@
 {% load static %}
 {
-  "name": "workouttracker",
-  "short_name": "WTrack",
+  "name": "OpenWorkoutTracker",
+  "short_name": "OWTrack",
   "icons": [
     {
       "src": "{% static 'workouttracker/img/android-chrome-192x192.png' %}",

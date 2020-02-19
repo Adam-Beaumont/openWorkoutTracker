@@ -13,27 +13,40 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-  <div class="col-md-3">
-    <div class="small-box bg-green">
+  <div class="col-lg-3 col-6">
+    <!-- small box -->
+    <div class="small-box bg-info">
       <div class="inner">
+        <h3>{{ workoutsTotal }}</h3>
+        <p>Total Workouts</p>
       </div>
+      <div class="icon">
+        <i class="fa fa-fist-raised fa-fw"></i>
+      </div>
+      <a href="{% url 'workouts' %}" class="small-box-footer">Go to Workouts <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
-  <div class="col-md-3">
-    <div class="small-box bg-yellow">
-      <div class="inner">
+  <!-- ./col -->
+</div>
+<div class="row">
+   <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Welcome to OpenWorkoutTracker Beta!</h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>  
+      <div class="card-body">
+        <p>OpenWorkoutTracker is a django-built webapp for managing your exercise and fitness routines and goals. It allows you to organize your fitness routines and record your workouts by date.</p>
+
+        <p>OpenWorkoutTracker allows you to visualize your progress and keep you on track. It also includes built in exercises that you can include in your workouts or routines, and allows you to add your own if you want.</p>
       </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="small-box bg-red">
-      <div class="inner">
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="small-box bg-blue">
-      <div class="inner">
+      <div class="card-footer">
       </div>
     </div>
   </div>

@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{% static 'vendor/css/AdminLTE.min.css' %}">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <title>workouttracker</title>
+    <title>OpenWorkoutTracker</title>
   </head>
   <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -45,29 +45,18 @@
                 </li>
               </ul>
               </li>
-              <li class="dropdown user user-menu">
+              <li class="nav-item dropdown user user-menu">
                 <a class="nav-link" data-toggle="dropdown" href="#">
                   <i class="fa fa-user" aria-hidden="true"></i>
                   <span class="hidden-xs">{% user_display user %}</span>
                 </a>
-                <ul class="dropdown-menu">
-                  <li class="user-header" id="navbar-user">
-                    <p>
-                    {% if request.user.first_name %}
-                    {{ request.user.first_name }} {{ request.user.last_name }}
-                    {% else %}
-                    {% user_display user %}
-                    {% endif %}
-                    </p>
-                  </li>
-                  <li class="user-footer">
-                    <div class="pull-left">
-                    </div>
-                    <div class="pull-right">
-                      <a href="{% url 'account_logout' %}" class="btn btn-default btn-flat">Sign out</a>
-                    </div>
-                  </li>
-                </ul>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                  <span class="dropdown-item dropdown-header">Account Menu - {% user_display user %}</span>
+                  <div class="dropdown-divider"></div>
+                    <a href="{% url 'account_logout' %}" class="dropdown-item">
+                      Log Out
+                    </a>
+                </div>
               </li>
             </ul>
         </nav>
@@ -77,9 +66,9 @@
      <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <a href="{% url 'index' %}" class="brand-link">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="brand-image img-circle elevation-3"><b>WT</b></span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="brand-text font-weight-light"><b>Workout</b>Tracker</span>
+        <img src="static/workouttracker/img/android-chrome-192x192.png" alt="OpenWorkoutTrackerLogo" class="brand-image"
+        style="filter: brightness(1.5);">
+        <span class="brand-text font-weight-light"><b>Open</b>WorkoutTracker</span>
       </a>
           <!-- Sidebar -->
           <div class="sidebar">
