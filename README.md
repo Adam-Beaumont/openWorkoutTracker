@@ -28,6 +28,11 @@
 
 OpenWorkoutTracker is a django-built webapp for managing your exercise and fitness routines and goals. It allows you to organize your fitness routines and record your workouts by date. 
 
+
+<p align="center">
+    <img src="https://adam-beaumont.com/images/workoutTrackerGit.png" alt="interface">
+</p>
+
 OpenWorkoutTracker allows you to visualize your progress and keep you on track. It also includes built in exercises that you can include in your workouts or routines, and allows you to add your own if you want.
 
 ### Purpose
