@@ -1,5 +1,11 @@
 [![License][license-shield]][license-uri]
 
+<p align="center">
+  <a href="https://openworkouttracker.com">
+    <img src="https://adam-beaumont.com/images/android-chrome-192x192.png" alt="Logo" width="128" height="128">
+  </a>
+</p>
+
 <h1 align="center">OpenWorkoutTracker</h1>
   <p align="center">
     Open source django based workout and exercise tracking app.
