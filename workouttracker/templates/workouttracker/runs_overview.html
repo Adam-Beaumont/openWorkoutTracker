@@ -1,0 +1,39 @@
+{% extends 'workouttracker/base.html' %}
+{% load humanize %}
+
+{% block content_header %}
+<h1>Runs
+</h1>
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="/">Home</a></li>
+  <li class="breadcrumb-item active">Runs</li>
+</ol>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+<div class="card-header with-border">
+  <h3 class="card-title">Runs</h3>
+</div>
+<div class="card-body">
+<table class="table table-striped">
+  <tr>
+    <th>Date</th>
+    <th>Description</th>
+    <th class="hidden-xs">Distance</th>
+    <th class="hidden-xs">Time</th>
+  </tr>
+{% for run in runs %}
+<tr>
+  <td class="hidden-xs">{{ run.date }}</td>
+  <td class="hidden-xs">{{ run.description }}</td>
+  <td class="hidden-xs">{{ run.distance }}</td>
+  <td class="hidden-xs">{{ run.time }}</td>
+{% endfor %}
+</table>
+</div>
+<div class="card-footer">
+  <a href="{% url 'run_create' %}" class="btn btn-primary">Create</a>
+</div>
+</div>
+{% endblock %}

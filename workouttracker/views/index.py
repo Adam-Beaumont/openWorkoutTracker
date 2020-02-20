@@ -6,7 +6,7 @@ from django.views import generic
 
 from rest_framework.authtoken.models import Token as AuthToken
 from workouttracker.lib import last_day_of_month
-from workouttracker.models import Workout
+from workouttracker.models import Workout, Run
 
 
 class IndexView(LoginRequiredMixin, generic.TemplateView):
@@ -15,5 +15,7 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = 'home'
-        context['workoutsTotal'] = Workout.objects.filter(user=self.request.user).count()
+        context['workoutsTotal'] = Workout.objects.belongsTo(self.request.user).count()
+        context['lastWorkout'] = Workout.objects.belongsTo(self.request.user).mostRecent()
+        context['runTotal'] = Run.objects.belongsTo(self.request.user).totalDistance()
         return context

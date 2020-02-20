@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from workouttracker.models import Routine, RoutineExercise, Exercise, Workout, WorkoutExercise
+from workouttracker.models import Routine, RoutineExercise, Exercise, Workout, WorkoutExercise, Run
 
 class RoutineExerciseSerializer(serializers.ModelSerializer):
     class Meta:
@@ -101,6 +101,18 @@ class ExerciseSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         exercise = Exercise.objects.create(**validated_data)
         return exercise
+
+class RunSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Run
+        fields = ('id', 'date', 'description', 'distance', 'time')
+
+    def validate(self, data):
+        return data
+
+    def create(self, validated_data):
+        run = Run.objects.create(**validated_data)
+        return run
 
 class WorkoutSerializer(serializers.ModelSerializer):
     class Meta:

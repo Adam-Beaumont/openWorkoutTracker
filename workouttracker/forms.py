@@ -35,6 +35,15 @@ class ExerciseForm(forms.ModelForm):
         exercise = super().save(commit)
         return exercise
 
+class RunForm(forms.ModelForm):
+    class Meta:
+        model = models.Run
+        fields = ('dateAdded','description', 'distance', 'time')
+
+    def save(self, commit=True):
+        run = super().save(commit)
+        return run
+
 class ExerciseSelectForm(forms.ModelForm):
     class Meta:
         model = models.Exercise

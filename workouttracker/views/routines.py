@@ -36,7 +36,7 @@ class RoutineIndex(LoginRequiredMixin, generic.ListView):
         for routine in routines:
             entry = self.routineEntry()
             entry.name = routine
-            entry.exercises = RoutineExercise.objects.filter(user=self.request.user).filter(routine_id=routine.id)
+            entry.exercises = RoutineExercise.objects.belongsTo(self.request.user).filter(routine_id=routine.id)
             routinesList.append({"name": routine, "id": routine.id, "exercises": RoutineExercise.objects.filter(routine_id=routine.id)})
 
         context['routinesList'] = routinesList
@@ -51,8 +51,8 @@ class RoutineExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(RoutineExerciseCreate, self).get_context_data(**kwargs)
-        context['exerciseSelect'] = Exercise.objects.filter(user=self.request.user).all()
-        context['exercises'] = jsonpickle.encode(Exercise.objects.filter(user=self.request.user).all())
+        context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
+        context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
         context['formset'] = self.formset_class()
         return context
 
@@ -80,8 +80,8 @@ class RoutineExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(RoutineExerciseUpdate, self).get_context_data(**kwargs)
-        context['exerciseSelect'] = Exercise.objects.filter(user=self.request.user).all()
-        context['exercises'] = jsonpickle.encode(Exercise.objects.filter(user=self.request.user).all())
+        context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
+        context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
         context['formset'] = self.formset_class(**self.get_form_kwargs())
         return context
 

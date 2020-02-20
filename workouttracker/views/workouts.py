@@ -50,8 +50,8 @@ class WorkoutExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(WorkoutExerciseCreate, self).get_context_data(**kwargs)
-        context['exerciseSelect'] = Exercise.objects.filter(user=self.request.user).all()
-        context['exercises'] = jsonpickle.encode(Exercise.objects.filter(user=self.request.user).all())
+        context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
+        context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
         context['formset'] = self.formset_class()
         return context
 
@@ -81,8 +81,8 @@ class WorkoutExerciseUpdate(UserPassesTestMixin, LoginRequiredMixin, generic.edi
 
     def get_context_data(self, **kwargs):
         context = super(WorkoutExerciseUpdate, self).get_context_data(**kwargs)
-        context['exerciseSelect'] = Exercise.objects.filter(user=self.request.user).all()
-        context['exercises'] = jsonpickle.encode(Exercise.objects.filter(user=self.request.user).all())
+        context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
+        context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
         context['formset'] = self.formset_class(**self.get_form_kwargs())
         return context
 

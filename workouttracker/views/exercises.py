@@ -33,7 +33,7 @@ class ExerciseIndex(LoginRequiredMixin, generic.ListView):
     template_name = 'workouttracker/exercises_overview.html'
     context_object_name = 'exercises'
     def get_queryset(self):
-        return Exercise.objects.filter(user=self.request.user).select_related()
+        return Exercise.objects.belongsTo(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
