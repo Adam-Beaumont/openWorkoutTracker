@@ -107,6 +107,11 @@ class RunSerializer(serializers.ModelSerializer):
         model = Run
         fields = ('id', 'date', 'description', 'distance', 'time')
 
+    date = serializers.DateField()
+    description = serializers.CharField()
+    distance = serializers.DecimalField(max_digits=6, decimal_places=2)
+    time = serializers.DecimalField(max_digits=6, decimal_places=2)
+
     def validate(self, data):
         return data
 

@@ -38,7 +38,7 @@ class ExerciseForm(forms.ModelForm):
 class RunForm(forms.ModelForm):
     class Meta:
         model = models.Run
-        fields = ('dateAdded','description', 'distance', 'time')
+        fields = ('date','description', 'distance', 'time')
 
     def save(self, commit=True):
         run = super().save(commit)

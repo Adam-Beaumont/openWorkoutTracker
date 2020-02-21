@@ -13,7 +13,7 @@
 {% block content %}
 <div class="card">
 <div class="card-header with-border">
-  <h3 class="card-title">Runs</h3>
+  <h3 class="card-title"> Past Runs</h3>
 </div>
 <div class="card-body">
 <table class="table table-striped">
@@ -27,8 +27,8 @@
 <tr>
   <td class="hidden-xs">{{ run.date }}</td>
   <td class="hidden-xs">{{ run.description }}</td>
-  <td class="hidden-xs">{{ run.distance }}</td>
-  <td class="hidden-xs">{{ run.time }}</td>
+  <td class="hidden-xs">{{ run.distance }} km</td>
+  <td class="hidden-xs">{{ run.time }} minutes</td>
 {% endfor %}
 </table>
 </div>

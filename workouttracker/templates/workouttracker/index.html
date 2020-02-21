@@ -54,6 +54,22 @@
       <a href="#" class="small-box-footer">Go to Runs <i class="fas fa-arrow-circle-right"></i></a>
     </div>
   </div>
+  <div class="col-lg-3 col-6">
+    <!-- small box -->
+    <div class="small-box bg-danger">
+      <div class="inner">
+        <h3>{{ lastRun }}</h3>
+        <p>Most Recent Run</p>
+        {% for run in runChartData %}
+          {{ run.distance }}
+        {% endfor %}
+      </div>
+      <div class="icon">
+        <i class="fas fa-history"></i>
+      </div>
+      <a href="#" class="small-box-footer">See Details <i class="fas fa-arrow-circle-right"></i></a>
+    </div>
+  </div>
 </div>
 <div class="row">
    <div class="col-md-12">
@@ -79,11 +95,28 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-4 col-md-push-8">
-    <div class="card">
-      <div class="card-content">
-      </div>
-    </div>
+    <div class="col-lg-6">
+      <div class="card">
+      <div class="card-header">
+                <div class="d-flex justify-content-between">
+                  <h3 class="card-title">Past Runs</h3>
+                  <a href="{% url 'runs' %}">Go to Runs</a>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="position-relative mb-4">
+                  <canvas id="runs-chart" height="200"></canvas>
+                </div>
+                <div class="d-flex flex-row justify-content-end">
+                  <span class="mr-2">
+                    <i class="fas fa-square text-primary"></i> Distance (km)
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+          <div class="col-lg-6">
     <div class="card">
       <div class="card-header">
         <h3 class="card-title">Recent Workouts</h3>
@@ -97,42 +130,85 @@
       </div>
     </div>
   </div>
-  <div class="col-md-8 col-md-pull-4">
-    <div class="card">
-      <div class="card-header">
-      </div>
-      <div class="card-body">
-        <canvas id="myChart" width="450" height="250"></canvas>
-      </div>
-    </div>
- 
-    <div class="card">
-      <div class="card-header with-border">
-        <h3 class="card-title">Progress</h3>
-      </div>
-      <div class="card-body">
-    
-      </div>
-    </div>
-  </div>
 </div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header with-border">
-        <h3 class="card-title">History</h3>
-      </div>
-      <div class="card-body">
-        
-      </div>
-    </div>
-  </div>
-</div>
+
+
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'vendor/js/Chart.bundle.min.js' %}"></script>
-<script type="text/javascript">
+<script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+<script>
+$(function () {
+  var ticksStyle = {
+    fontColor: '#495057',
+    fontStyle: 'bold'
+  }
 
+  var mode      = 'index'
+  var intersect = true
+
+  var runChartData =  JSON.parse('{{ runChartData|escapejs }}')
+
+  var dateData = []
+  var distData = []
+  for (var i = 0; i < runChartData.length; i++) {
+    dateData[i]=runChartData[i]['fields']['date'].substring(5)
+    distData[i]=runChartData[i]['fields']['distance']
+}
+
+var $runsChart = $('#runs-chart')
+  var runsChart  = new Chart($runsChart, {
+    data   : {
+      labels  : dateData,
+      datasets: [{
+        type                : 'line',
+        data                : distData,
+        backgroundColor     : 'transparent',
+        borderColor         : '#007bff',
+        pointBorderColor    : '#007bff',
+        pointBackgroundColor: '#007bff',
+        fill                : false
+        // pointHoverBackgroundColor: '#007bff',
+        // pointHoverBorderColor    : '#007bff'
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      tooltips           : {
+        mode     : mode,
+        intersect: intersect
+      },
+      hover              : {
+        mode     : mode,
+        intersect: intersect
+      },
+      legend             : {
+        display: false
+      },
+      scales             : {
+        yAxes: [{
+          // display: false,
+          gridLines: {
+            display      : true,
+            lineWidth    : '4px',
+            color        : 'rgba(0, 0, 0, .2)',
+            zeroLineColor: 'transparent'
+          },
+          ticks    : $.extend({
+            beginAtZero : true,
+            suggestedMax: 200
+          }, ticksStyle)
+        }],
+        xAxes: [{
+          display  : true,
+          gridLines: {
+            display: false
+          },
+          ticks    : ticksStyle
+        }]
+      }
+    }
+  })
+})
 </script>
 {% endblock %}

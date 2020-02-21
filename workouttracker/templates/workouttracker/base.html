@@ -43,6 +43,15 @@
                 <li>
                   <a href="{% url 'exercise_create' %}" class>New Exercise</a>
                 </li>
+                <li>
+                  <a href="{% url 'routine_create' %}" class>New Routine</a>
+                </li>
+                <li>
+                  <a href="{% url 'workout_create' %}" class>New Workout</a>
+                </li>
+                <li>
+                  <a href="{% url 'run_create' %}" class>New Run</a>
+                </li>
               </ul>
               </li>
               <li class="nav-item dropdown user user-menu">
@@ -80,14 +89,8 @@
               <a href="/" class="nav-link" >
                 <i class="fa fa-home"></i> <p>Home</p>
               </a>
-            </li>
+            </li> 
             <li class="nav-item">
-                <a class="nav-link">
-                  <i class="fa fa-bank fa-fw"></i>
-                  <p>History</p>
-                </a>
-            </li>
-            <li class="nav-item"">
               <a href="{% url 'workouts' %}" class="nav-link" >
                 <i class="fa fa-fist-raised fa-fw"></i>
                 <p>Workouts</p>

@@ -92,15 +92,21 @@ class Exercise(models.Model):
 class RunQuerySet(models.QuerySet):
     def last_10(self):
         return self.order_by('-date')[:10]
+
+    def last_7(self):
+        return self.order_by('date')[:7]
     
     def belongsTo(self, user):
         return self.filter(user=user)
+
+    def mostRecent(self):
+        return self.order_by('date')[1]
 
     def totalDistance(self):
         return self.aggregate(Sum('distance'))['distance__sum']
 
 class Run(models.Model):
-    dateAdded = models.DateField(default=date.today)
+    date = models.DateField(default=date.today)
     description = models.TextField(blank=True, null=True)
     distance = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
     time = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
@@ -108,7 +114,7 @@ class Run(models.Model):
     objects = RunQuerySet.as_manager()
 
     def __str__(self):
-        return self.dateAdded
+        return str(self.date)
 
     def get_absolute_url(self):
         return reverse('run_create', args=[self.pk])
