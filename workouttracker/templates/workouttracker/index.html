@@ -119,14 +119,15 @@
           <div class="col-lg-6">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Recent Workouts</h3>
+        <h3 class="card-title">Most Recent Workout</h3>
       </div>
       <div class="card-body">
-        <table class="table">
-        <tr>
-        <th>Workouts</th>
-        </tr>
-        </table>
+          <h2>{{lastWorkout}}</h2>
+          <span>{{lastWorkout.description}}</span>
+          {% for exercise in lastWorkoutExercises %}
+            <span>{{exercise}}</span>
+          {% endfor %}
+          <hr>
       </div>
     </div>
   </div>

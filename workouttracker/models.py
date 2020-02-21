@@ -41,6 +41,9 @@ class WorkoutQuerySet(models.QuerySet):
     def last_10(self):
         return self.order_by('name')[:10]
 
+    def last_5(self):
+        return self.order_by('date')[:5]
+
     def mostRecent(self):
         return self.order_by('date')[1]
 
@@ -66,6 +69,7 @@ class Workout(models.Model):
 
     def get_workoutExercises(self):
         return RoutineExercise.objects.filter(workout=self)
+
 
 class ExerciseQuerySet(models.QuerySet):
     def last_10(self):
@@ -155,6 +159,10 @@ class WorkoutExerciseQuerySet(models.QuerySet):
     def belongsTo(self, user):
         return self.filter(user=user)
 
+    def getForWorkout(self, workout):
+        return self.filter(workout=workout)
+
+
 class WorkoutExercise(models.Model): 
     class Meta:
         ordering = ['title']
@@ -166,7 +174,7 @@ class WorkoutExercise(models.Model):
     workout = models.ForeignKey(Workout, models.CASCADE, related_name='workoutexercises',
                                     blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    objects = RoutineExerciseQuerySet.as_manager()
+    objects = WorkoutExerciseQuerySet.as_manager()
 
     def __str__(self):
         return self.title

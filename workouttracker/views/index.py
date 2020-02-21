@@ -10,7 +10,7 @@ import json
 from rest_framework.renderers import JSONRenderer
 from rest_framework.authtoken.models import Token as AuthToken
 from workouttracker.lib import last_day_of_month
-from workouttracker.models import Workout, Run
+from workouttracker.models import Workout, WorkoutExercise, Run
 
 
 class IndexView(LoginRequiredMixin, generic.TemplateView):
@@ -21,6 +21,7 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
         context['menu'] = 'home'
         context['workoutsTotal'] = Workout.objects.belongsTo(self.request.user).count()
         context['lastWorkout'] = Workout.objects.belongsTo(self.request.user).mostRecent()
+        context['lastWorkoutExercises'] = WorkoutExercise.objects.getForWorkout(context['lastWorkout'])
         context['runTotal'] = Run.objects.belongsTo(self.request.user).totalDistance()
         context['runChartData'] = serialize('json',Run.objects.belongsTo(self.request.user).only('date'))
         context['lastRun'] = Run.objects.belongsTo(self.request.user).mostRecent()
