@@ -18,13 +18,12 @@ class RunDetailView(LoginRequiredMixin, generic.DetailView):
         context['menu'] = 'runs'
         return context
 
-
-class RunDeleteView(LoginRequiredMixin, generic.edit.DeleteView):
+class RunDelete(LoginRequiredMixin, generic.edit.DeleteView):
     model = Run
     success_url = reverse_lazy('runs')
 
     def get_context_data(self, **kwargs):
-        context = super(RunDeleteView, self).get_context_data(**kwargs)
+        context = super(RunDelete, self).get_context_data(**kwargs)
         context['menu'] = 'runs'
         return context
 
@@ -50,6 +49,7 @@ class RunCreate(LoginRequiredMixin, generic.edit.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(RunCreate, self).get_context_data(**kwargs)
+        context['menu'] = 'runs'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -66,11 +66,12 @@ class RunCreate(LoginRequiredMixin, generic.edit.CreateView):
 class RunUpdate(LoginRequiredMixin, generic.edit.UpdateView):
     model = Run
     template_name = 'workouttracker/run_form.html'
-    fields = '__all__'
+    form_class = RunForm
 
     def get_context_data(self, **kwargs):
-        context = super(RunCreate, self).get_context_data(**kwargs)
-        context['formset'] = self.formset_class(**self.get_form_kwargs())
+        context = super(RunUpdate, self).get_context_data(**kwargs)
+        context['form'] = self.form_class(**self.get_form_kwargs())
+        context['menu'] = 'runs'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -79,10 +80,9 @@ class RunUpdate(LoginRequiredMixin, generic.edit.UpdateView):
 
         if form.is_valid():
             run = form.save(commit=False)
-            formset = self.formset_class(self.request.POST, instance=run)
-            if formset.is_valid():
+            form = self.form_class(self.request.POST, instance=run)
+            if form.is_valid():
                 run.save()
-                formset.save()
-                return HttpResponseRedirect(reverse('runs',
-                                                        args=[run.id]))
+                form.save()
+                return HttpResponseRedirect(reverse('runs'))
         return self.render_to_response(self.get_context_data(form=form))

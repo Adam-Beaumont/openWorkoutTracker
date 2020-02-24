@@ -45,7 +45,7 @@ class RoutineIndex(LoginRequiredMixin, generic.ListView):
 
 class RoutineExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
     model = Routine
-    template_name = 'workouttracker/routine_split_form.html'
+    template_name = 'workouttracker/routine_form.html'
     formset_class = RoutineFormSet
     fields = {'name','description'}
 
@@ -54,6 +54,7 @@ class RoutineExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
         context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
         context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
         context['formset'] = self.formset_class()
+        context['menu'] = 'routines'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -74,7 +75,7 @@ class RoutineExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 class RoutineExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
     model = Routine
-    template_name = 'workouttracker/routine_split_form.html'
+    template_name = 'workouttracker/routine_form.html'
     formset_class = RoutineFormSet
     fields = '__all__'
 
@@ -83,6 +84,7 @@ class RoutineExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
         context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
         context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
         context['formset'] = self.formset_class(**self.get_form_kwargs())
+        context['menu'] = 'routines'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -98,3 +100,12 @@ class RoutineExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
                 formset.save()
                 return HttpResponseRedirect(reverse('routines'))
         return self.render_to_response(self.get_context_data(form=form))
+
+class RoutineDelete(LoginRequiredMixin, generic.edit.DeleteView):
+    model = Routine
+    success_url = reverse_lazy('routines')
+
+    def get_context_data(self, **kwargs):
+        context = super(RoutineDelete, self).get_context_data(**kwargs)
+        context['menu'] = 'routines'
+        return context

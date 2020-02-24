@@ -15,6 +15,9 @@ class RoutineQuerySet(models.QuerySet):
     def belongsTo(self, user):
         return self.filter(user=user)
 
+    def routine(self, routine):
+        return self.filter(routine=routine)
+
 # -------------------------- Adam's Stuff ----------------------------------------
 
 class Routine(models.Model):
@@ -60,6 +63,12 @@ class Workout(models.Model):
     class Meta:
         verbose_name_plural = 'workouts'
         ordering = ['date']
+
+    @classmethod
+    def create(cls, description, user ):
+        workout = cls(description=description, user=user)
+        # do something with the book
+        return workout
 
     def __str__(self):
         return str(self.date)
@@ -110,10 +119,10 @@ class RunQuerySet(models.QuerySet):
         return self.aggregate(Sum('distance'))['distance__sum']
 
 class Run(models.Model):
-    date = models.DateField(default=date.today)
+    date = models.DateField('Date of Run',default=date.today)
     description = models.TextField(blank=True, null=True)
-    distance = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
-    time = models.DecimalField(max_digits=6, decimal_places=2, blank=True, null=True)
+    distance = models.DecimalField('Distance Ran - In km',max_digits=6, decimal_places=2, blank=True, null=True)
+    time = models.DecimalField('Time - In Minutes',max_digits=6, decimal_places=2, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     objects = RunQuerySet.as_manager()
 
@@ -121,7 +130,7 @@ class Run(models.Model):
         return str(self.date)
 
     def get_absolute_url(self):
-        return reverse('run_create', args=[self.pk])
+        return reverse('run_update', args=[self.pk])
 
 class RoutineExerciseQuerySet(models.QuerySet):
     def routine(self, routine):

@@ -20,14 +20,21 @@
     <a class="btn btn-primary" href="{% url 'routine_create' %}">Create New Routine</a>
   </div>
 </div>
-<!-- <div>
-{{routinesList}}
-</div> -->
+
 {% for routine in routinesList %}
 <div class="card">
   <div class="card-header with-border">
     <h3 class="card-title">{{ routine.name }}</h3>
-    <a class="btn btn-default" href="{% url 'routine_update' routine.id %}">Edit</a>
+    <form id="delete_form_{{routine.id}}" method="post" action="{% url 'routine_delete' routine.id %}">
+      {% csrf_token %}
+    </form>
+    <form id="as_workout_form_{{routine.id}}" method="post" action="{% url 'routine_as_workout' routine.id %}">
+      {% csrf_token %}
+    </form>
+    <a href="#" onclick="document.getElementById('as_workout_form_{{routine.id}}').submit();" class="btn btn-default btn-sm" style="margin-left: 10px;">Use For Workout</a>
+    <a class="btn btn-default btn-sm" style="margin-left: 10px;" href="{% url 'routine_update' routine.id %}">Edit</a>
+    <a href="#" onclick="document.getElementById('delete_form_{{routine.id}}').submit();" class="btn btn-primary btn-sm" style="margin-left: 10px;">Delete</a>
+
   </div>
   <div class="card-body">
     {% for exercise in routine.exercises %}
@@ -38,32 +45,6 @@
       </div>
     </div>
 {% endfor %}
-{% for category in categories %}
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">{{category}}</h3>
-  </div>
-  <div class="card-body">
-    <table class="table">
-      <tr>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Amount</th>
-      </tr>
-        {% for exercise in splits %}
-        <tr>
-          <td><a href="{{ exercise.get_absolute_url }}">{{ exercise.title }}</a></td>
-          <td>{{ exercise.date }}</td>
-          <td>{{ exercise.amount }}</td>
-        </tr>
-        {% endfor %}
-      </table>
-    </div>
-    <div class="card-footer">
-      <a class="btn btn-primary" href="{% url 'transactions' %}?category={{ category.id }}" >Go to workout</a>
-    </div>
-  </div>
-  {% endfor %}
 {% endblock %}
 
 {% block scripts %}

@@ -4,7 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from workouttracker.forms import ExerciseSelectForm, ExerciseForm, WorkoutFormSet
-from workouttracker.models import Exercise, Workout, WorkoutExercise
+from workouttracker.models import Exercise, Routine, Workout, WorkoutExercise
 
 import jsonpickle
 from collections import namedtuple
@@ -30,7 +30,6 @@ class WorkoutIndex(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = 'workouts'
-        context['submenu'] = 'all'
         workouts = context['workouts']
         workoutsList = []
         for workout in Workout.objects.belongsTo(self.request.user).dateDescending():
@@ -44,7 +43,7 @@ class WorkoutIndex(LoginRequiredMixin, generic.ListView):
 
 class WorkoutExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
     model = Workout
-    template_name = 'workouttracker/workout_split_form.html'
+    template_name = 'workouttracker/workout_form.html'
     formset_class = WorkoutFormSet
     fields = {'date','description'}
 
@@ -53,6 +52,7 @@ class WorkoutExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
         context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
         context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
         context['formset'] = self.formset_class()
+        context['menu'] = 'workouts'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -73,7 +73,7 @@ class WorkoutExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
 
 class WorkoutExerciseUpdate(UserPassesTestMixin, LoginRequiredMixin, generic.edit.UpdateView):
     model = Workout
-    template_name = 'workouttracker/workout_split_form.html'
+    template_name = 'workouttracker/workout_form.html'
     formset_class = WorkoutFormSet
     fields = {'date','description'}
     def test_func(self):
@@ -84,6 +84,7 @@ class WorkoutExerciseUpdate(UserPassesTestMixin, LoginRequiredMixin, generic.edi
         context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
         context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
         context['formset'] = self.formset_class(**self.get_form_kwargs())
+        context['menu'] = 'workouts'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -108,3 +109,35 @@ class WorkoutDelete(LoginRequiredMixin, generic.edit.DeleteView):
         context = super(WorkoutDelete, self).get_context_data(**kwargs)
         context['menu'] = 'workouts'
         return context
+
+class WorkoutCreateFromRoutine(LoginRequiredMixin, generic.edit.CreateView):
+    model = Workout
+    fields = {'date','description'}
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(WorkoutCreateFromRoutine, self).get_context_data(**kwargs)
+    #     context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
+    #     context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
+    #     context['formset'] = self.formset_class()
+    #     context['menu'] = 'workouts'
+    #     return context
+
+    def post(self, request, *args, **kwargs):
+        kwargs['pk']
+        # form = self.get_form(self.get_form_class())
+
+        # if form.is_valid():
+        #     workout = form.save(commit=False)
+        #     formset = self.formset_class(self.request.POST, instance=workout)
+        #     if formset.is_valid():
+        #         workout.user = self.request.user
+        #         workout.save()
+        #         new_instances = formset.save(commit=False)
+        #         for new_instance in new_instances:
+        #             new_instance.user = self.request.user
+        #             new_instance.save()
+  
+        workout = Workout.create(getattr(Routine.objects.get(id=kwargs['pk']),'description'),self.request.user)
+        workout.save()
+        return HttpResponseRedirect(reverse('workouts'))
+        # return self.render_to_response(self.get_context_data(form=form))

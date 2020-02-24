@@ -18,6 +18,7 @@
   </div>
   <div class="card-footer">
     <a class="btn btn-primary" href="{% url 'workout_create' %}">Create New Workout</a>
+    <a class="btn btn-primary" href="{% url 'routines' %}">Choose a Routine</a>
   </div>
 </div>
 
@@ -30,9 +31,9 @@
       <form id="delete_form_{{workout.id}}" method="post" action="{% url 'workout_delete' workout.id %}">
         {% csrf_token %}
       </form>
-      <a class="btn btn-default" style="margin-left: 10px;" href="{% url 'workout_update' workout.id %}">Edit</a>
+      <a class="btn btn-default btn-sm" style="margin-left: 10px;" href="{% url 'workout_update' workout.id %}">Edit</a>
 
-    <a href="#" onclick="document.getElementById('delete_form_{{workout.id}}').submit();" class="btn btn-primary" style="margin-left: 10px;">Delete</a>
+    <a href="#" onclick="document.getElementById('delete_form_{{workout.id}}').submit();" class="btn btn-primary btn-sm" style="margin-left: 10px;">Delete</a>
   </span>
   </div>
   <div class="card-body">

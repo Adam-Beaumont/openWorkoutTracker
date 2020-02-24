@@ -22,13 +22,19 @@
     <th>Description</th>
     <th class="hidden-xs">Distance</th>
     <th class="hidden-xs">Time</th>
+    <th class="hidden-xs"></th>
   </tr>
 {% for run in runs %}
 <tr>
-  <td class="hidden-xs">{{ run.date }}</td>
+  <td><a href="{{ run.get_absolute_url }}">{{ run.date }}</a></td>
   <td class="hidden-xs">{{ run.description }}</td>
   <td class="hidden-xs">{{ run.distance }} km</td>
   <td class="hidden-xs">{{ run.time }} minutes</td>
+  <form id="delete_form_{{run.pk}}" method="post" action="{% url 'run_delete' run.pk %}">
+    {% csrf_token %}
+  </form>
+  <td class="hidden-xs"><a href="#" onclick="document.getElementById('delete_form_{{run.pk}}').submit();" class="btn btn-primary">Delete</a></td>
+
 {% endfor %}
 </table>
 </div>

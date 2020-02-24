@@ -38,8 +38,6 @@ class ExerciseIndex(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = 'exercises'
-        # today = date.today()
-        context['submenu'] = 'all'
         return context
 
 
@@ -50,6 +48,7 @@ class ExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(ExerciseCreate, self).get_context_data(**kwargs)
+        context['menu'] = 'exercises'
         return context
 
     def post(self, request, *args, **kwargs):
@@ -72,6 +71,7 @@ class ExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ExerciseUpdate, self).get_context_data(**kwargs)
         context['form'] = self.form_class(**self.get_form_kwargs())
+        context['menu'] = 'exercises'
         return context
 
     def post(self, request, *args, **kwargs):
