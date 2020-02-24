@@ -10,21 +10,21 @@ from workouttracker.models import Exercise
 # from workouttracker.lib import last_day_of_month
 
 
-class ExerciseDetailView(LoginRequiredMixin, generic.DetailView):
+class ExerciseDetail(LoginRequiredMixin, generic.DetailView):
     model = Exercise
     context_object_name = 'exercise'
     def get_context_data(self, **kwargs):
-        context = super(ExerciseDetailView, self).get_context_data(**kwargs)
+        context = super(ExerciseDetail, self).get_context_data(**kwargs)
         context['menu'] = 'exercises'
         return context
 
 
-class ExerciseDeleteView(LoginRequiredMixin, generic.edit.DeleteView):
+class ExerciseDelete(LoginRequiredMixin, generic.edit.DeleteView):
     model = Exercise
     success_url = reverse_lazy('exercises')
 
     def get_context_data(self, **kwargs):
-        context = super(ExerciseDeleteView, self).get_context_data(**kwargs)
+        context = super(ExerciseDelete, self).get_context_data(**kwargs)
         context['menu'] = 'exercises'
         return context
 
@@ -38,7 +38,7 @@ class ExerciseIndex(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = 'exercises'
-        today = date.today()
+        # today = date.today()
         context['submenu'] = 'all'
         return context
 
@@ -66,11 +66,12 @@ class ExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
 class ExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
     model = Exercise
     template_name = 'workouttracker/exercise_form.html'
-    fields = '__all__'
+    form_class = ExerciseForm
+
 
     def get_context_data(self, **kwargs):
-        context = super(ExerciseCreate, self).get_context_data(**kwargs)
-        context['formset'] = self.formset_class(**self.get_form_kwargs())
+        context = super(ExerciseUpdate, self).get_context_data(**kwargs)
+        context['form'] = self.form_class(**self.get_form_kwargs())
         return context
 
     def post(self, request, *args, **kwargs):
@@ -79,10 +80,9 @@ class ExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
 
         if form.is_valid():
             exercise = form.save(commit=False)
-            formset = self.formset_class(self.request.POST, instance=exercise)
-            if formset.is_valid():
+            form = self.form_class(self.request.POST, instance=exercise)
+            if form.is_valid():
                 exercise.save()
-                formset.save()
-                return HttpResponseRedirect(reverse('exercises',
-                                                        args=[exercise.id]))
+                form.save()
+                return HttpResponseRedirect(reverse('exercises'))
         return self.render_to_response(self.get_context_data(form=form))

@@ -23,14 +23,19 @@
     <th>Description</th>
     <th class="hidden-xs">Sets</th>
     <th class="hidden-xs">Reps</th>
+    <th class="hidden-xs"></th>
   </tr>
 {% for exercise in exercises %}
 <tr>
-  <td><a href="{{ transaction.get_absolute_url }}">{{ exercise.title }}</a></td>
-  <td class="hidden-xs">{{ exercise.date }}</td>
+  <td><a href="{{ exercise.get_absolute_url }}">{{ exercise.title }}</a></td>
+  <td class="hidden-xs">{{ exercise.dateAdded }}</td>
   <td class="hidden-xs">{{ exercise.description }}</td>
   <td class="hidden-xs">{{ exercise.sets }}</td>
   <td class="hidden-xs">{{ exercise.reps }}</td>
+  <form id="delete_form_{{exercise.pk}}" method="post" action="{% url 'exercise_delete' exercise.pk %}">
+    {% csrf_token %}
+</form>
+  <td class="hidden-xs"><a href="#" onclick="document.getElementById('delete_form_{{exercise.pk}}').submit();" class="btn btn-primary">Delete</a></td>
 {% endfor %}
 </table>
 </div>

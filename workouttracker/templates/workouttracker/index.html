@@ -123,9 +123,9 @@
       </div>
       <div class="card-body">
           <h2>{{lastWorkout}}</h2>
-          <span>{{lastWorkout.description}}</span>
+          <span>{{lastWorkout.description}}</span><br/>
           {% for exercise in lastWorkoutExercises %}
-            <span>{{exercise}}</span>
+            <small>{{exercise}}</small><br/>
           {% endfor %}
           <hr>
       </div>

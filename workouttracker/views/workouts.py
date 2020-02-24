@@ -33,7 +33,7 @@ class WorkoutIndex(LoginRequiredMixin, generic.ListView):
         context['submenu'] = 'all'
         workouts = context['workouts']
         workoutsList = []
-        for workout in workouts:
+        for workout in Workout.objects.belongsTo(self.request.user).dateDescending():
             entry = self.workoutEntry()
             entry.name = workout
             entry.exercises = WorkoutExercise.objects.filter(user=self.request.user).filter(workout_id=workout.id)
@@ -100,3 +100,11 @@ class WorkoutExerciseUpdate(UserPassesTestMixin, LoginRequiredMixin, generic.edi
                 return HttpResponseRedirect(reverse('workouts'))
         return self.render_to_response(self.get_context_data(form=form))
     
+class WorkoutDelete(LoginRequiredMixin, generic.edit.DeleteView):
+    model = Workout
+    success_url = reverse_lazy('workouts')
+
+    def get_context_data(self, **kwargs):
+        context = super(WorkoutDelete, self).get_context_data(**kwargs)
+        context['menu'] = 'workouts'
+        return context

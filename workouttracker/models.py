@@ -38,14 +38,14 @@ class Routine(models.Model):
         return RoutineExercise.objects.filter(routine=self)
 
 class WorkoutQuerySet(models.QuerySet):
-    def last_10(self):
-        return self.order_by('name')[:10]
+    def dateDescending(self):
+        return self.order_by('-date')
 
     def last_5(self):
         return self.order_by('date')[:5]
 
     def mostRecent(self):
-        return self.order_by('date')[1]
+        return self.order_by('-date')[0]
 
     def belongsTo(self, user):
         return self.filter(user=user)
@@ -91,11 +91,11 @@ class Exercise(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('exercise_create', args=[self.pk])
+        return reverse('exercise_update', args=[self.pk])
 
 class RunQuerySet(models.QuerySet):
-    def last_10(self):
-        return self.order_by('-date')[:10]
+    def dateDescending(self):
+        return self.order_by('-date')
 
     def last_7(self):
         return self.order_by('date')[:7]
@@ -104,7 +104,7 @@ class RunQuerySet(models.QuerySet):
         return self.filter(user=user)
 
     def mostRecent(self):
-        return self.order_by('date')[1]
+        return self.order_by('-date')[0]
 
     def totalDistance(self):
         return self.aggregate(Sum('distance'))['distance__sum']

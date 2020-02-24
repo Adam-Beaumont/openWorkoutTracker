@@ -33,7 +33,7 @@ class RunIndex(LoginRequiredMixin, generic.ListView):
     template_name = 'workouttracker/runs_overview.html'
     context_object_name = 'runs'
     def get_queryset(self):
-        return Run.objects.belongsTo(self.request.user)
+        return Run.objects.belongsTo(self.request.user).dateDescending()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
