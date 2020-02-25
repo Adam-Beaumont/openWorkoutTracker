@@ -118,9 +118,3 @@ class RunSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         run = Run.objects.create(**validated_data)
         return run
-
-class WorkoutSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Workout
-        fields = ('id', 'name', 'description', 'last_modified')
-        read_only_fields = ('last_modified',)
