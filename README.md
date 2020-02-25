@@ -18,6 +18,8 @@
 - [About openWorkoutTracker](#about-openworkouttracker)
   - [Purpose](#purpose)
 - [Contributing](#contributing)
+  - [How to Contribute](#how-to-contribute)
+  - [Contribution Requirements](#contribution-requirements)
 - [License](#license)
 - [Contact](#contact)
 
@@ -54,6 +56,17 @@ There are many apps that provide the same functionality as OpenWorkoutTracker, h
 ## Contributing
 
 Contributions to OpenWorkoutTracker are allowed! Please feel free to help with the development of OpenWorkoutTracker by opening issues, or contributing code. Feature requests are also welcome.
+
+### How to Contribute
+- [Fork the repository](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)
+- Clone your repo with https://github.com/{YOUR USERNAME}/openWorkoutTracker.git
+- Create a feature branch to make your changes
+- Create a pull request to the origin repository
+
+### Contribution Requirements
+- Contributions that contain content from another party must be appropriately licensed, open source, and permissible for use
+- Contributions made to OpenWorkoutTracker will fall under the OpenWorkoutTracker license
+- Code contributions may only be made via a pull request
 
 ## License
 
