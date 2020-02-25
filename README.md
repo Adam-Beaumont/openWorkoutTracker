@@ -59,7 +59,7 @@ Contributions to OpenWorkoutTracker are allowed! Please feel free to help with t
 
 ### How to Contribute
 - [Fork the repository](https://help.github.com/en/github/getting-started-with-github/fork-a-repo)
-- Clone your repo with https://github.com/{YOUR USERNAME}/openWorkoutTracker.git
+- Clone your repo with github.com /{YOUR USERNAME}/ openWorkoutTracker.git
 - Create a feature branch to make your changes
 - Create a pull request to the origin repository
 
