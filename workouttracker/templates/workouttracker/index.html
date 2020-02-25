@@ -31,7 +31,11 @@
     <!-- small box -->
     <div class="small-box bg-success">
       <div class="inner">
-        <h3>{{ lastWorkout }}</h3>
+        {% if workoutsTotal > 0 %}
+          <h3>{{ lastWorkout }}</h3>
+        {% else %}
+          <h3>No Workouts Yet</h3>
+        {% endif %}
         <p>Most Recent Workout</p>
       </div>
       <div class="icon">
@@ -45,7 +49,11 @@
     <!-- small box -->
     <div class="small-box bg-warning">
       <div class="inner">
-        <h3>{{ runTotal }}km</h3>
+        {% if runTotal == None %}
+          <h3>0 km</h3>        
+        {% else %}
+          <h3>{{ runTotal }} km</h3>
+        {% endif %}
         <p>Total Distance Run</p>
       </div>
       <div class="icon">
@@ -58,11 +66,12 @@
     <!-- small box -->
     <div class="small-box bg-danger">
       <div class="inner">
+        {% if runsTotal > 0 %}
         <h3>{{ lastRun }}</h3>
+      {% else %}
+        <h3>No Runs Yet</h3>
+      {% endif %}
         <p>Most Recent Run</p>
-        {% for run in runChartData %}
-          {{ run.distance }}
-        {% endfor %}
       </div>
       <div class="icon">
         <i class="fas fa-history"></i>
@@ -85,9 +94,10 @@
         </div>
       </div>  
       <div class="card-body">
-        <p>OpenWorkoutTracker is a django-built webapp for managing your exercise and fitness routines and goals. It allows you to organize your fitness routines and record your workouts by date.</p>
+        <p>OpenWorkoutTracker is a django-built webapp for managing your exercise and fitness routines and goals. It allows you to organize your fitness routines and record your workouts by date.
+          OpenWorkoutTracker allows you to visualize your progress and keep you on track. It also includes built in exercises that you can include in your workouts or routines, and allows you to add your own if you want.</p>
 
-        <p>OpenWorkoutTracker allows you to visualize your progress and keep you on track. It also includes built in exercises that you can include in your workouts or routines, and allows you to add your own if you want.</p>
+        <p>If you're interested in contributing to or hosting your own version of OpenWorkoutTracker, check out the project <a href="https://github.com/Adam-Beaumont/openWorkoutTracker">Github</a> page.</p>
       </div>
       <div class="card-footer">
       </div>
@@ -122,12 +132,16 @@
         <h3 class="card-title">Most Recent Workout</h3>
       </div>
       <div class="card-body">
+        {% if workoutsTotal > 0 %}
           <h2>{{lastWorkout}}</h2>
           <span>{{lastWorkout.description}}</span><br/>
           {% for exercise in lastWorkoutExercises %}
             <small>{{exercise}}</small><br/>
           {% endfor %}
           <hr>
+        {% else %}
+          <h2>No Workouts yet</h2>
+        {% endif %}
       </div>
     </div>
   </div>

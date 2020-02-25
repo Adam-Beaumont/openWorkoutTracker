@@ -8,6 +8,7 @@ class RoutineForm(forms.ModelForm):
     class Meta:
         model = models.Routine
         fields = ['name','description']
+    field_order = ['name','description']
 
     def save(self, commit=True):
         routine = super().save(commit)

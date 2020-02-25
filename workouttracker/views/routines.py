@@ -47,7 +47,7 @@ class RoutineExerciseCreate(LoginRequiredMixin, generic.edit.CreateView):
     model = Routine
     template_name = 'workouttracker/routine_form.html'
     formset_class = RoutineFormSet
-    fields = {'name','description'}
+    fields = ['name','description']
 
     def get_context_data(self, **kwargs):
         context = super(RoutineExerciseCreate, self).get_context_data(**kwargs)
@@ -97,7 +97,10 @@ class RoutineExerciseUpdate(LoginRequiredMixin, generic.edit.UpdateView):
             if formset.is_valid():
                 routine.user = self.request.user
                 routine.save()
-                formset.save()
+                new_instances = formset.save(commit=False)
+                for new_instance in new_instances:
+                    new_instance.user = self.request.user
+                    new_instance.save()
                 return HttpResponseRedirect(reverse('routines'))
         return self.render_to_response(self.get_context_data(form=form))
 

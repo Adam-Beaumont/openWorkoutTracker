@@ -1,0 +1,20 @@
+.login-page {
+    background-image: url(/static/workouttracker/img/loginBackground.jpg);
+    background-position: center;
+    background-size: cover;
+    color: #e5e9ed;
+}
+
+.login-box {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.login-page a {
+    color: #9eccff
+}
+.login-logo-image {
+    width: 90px;
+}

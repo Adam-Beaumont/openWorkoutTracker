@@ -4,7 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.views import generic
 
 from workouttracker.forms import ExerciseSelectForm, ExerciseForm, WorkoutFormSet
-from workouttracker.models import Exercise, Routine, Workout, WorkoutExercise
+from workouttracker.models import Exercise, Routine, Workout, WorkoutExercise, RoutineExercise
 
 import jsonpickle
 from collections import namedtuple
@@ -112,32 +112,22 @@ class WorkoutDelete(LoginRequiredMixin, generic.edit.DeleteView):
 
 class WorkoutCreateFromRoutine(LoginRequiredMixin, generic.edit.CreateView):
     model = Workout
-    fields = {'date','description'}
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(WorkoutCreateFromRoutine, self).get_context_data(**kwargs)
-    #     context['exerciseSelect'] = Exercise.objects.belongsTo(self.request.user)
-    #     context['exercises'] = jsonpickle.encode(Exercise.objects.belongsTo(self.request.user))
-    #     context['formset'] = self.formset_class()
-    #     context['menu'] = 'workouts'
-    #     return context
+    fields = ['date','description']
 
     def post(self, request, *args, **kwargs):
         kwargs['pk']
-        # form = self.get_form(self.get_form_class())
 
-        # if form.is_valid():
-        #     workout = form.save(commit=False)
-        #     formset = self.formset_class(self.request.POST, instance=workout)
-        #     if formset.is_valid():
-        #         workout.user = self.request.user
-        #         workout.save()
-        #         new_instances = formset.save(commit=False)
-        #         for new_instance in new_instances:
-        #             new_instance.user = self.request.user
-        #             new_instance.save()
-  
         workout = Workout.create(getattr(Routine.objects.get(id=kwargs['pk']),'description'),self.request.user)
         workout.save()
-        return HttpResponseRedirect(reverse('workouts'))
+        for RExercise in RoutineExercise.objects.filter(user=self.request.user).filter(routine_id=kwargs['pk']):
+            workoutExercise = WorkoutExercise.create(
+                getattr(RExercise,'title'),
+                getattr(RExercise,'description'),
+                getattr(RExercise,'sets'),
+                getattr(RExercise,'reps'),
+                getattr(workout,'id'),
+                self.request.user
+            )
+            workoutExercise.save()
+        return HttpResponseRedirect(reverse('workout_update', kwargs={'pk': getattr(workout,'id')}))
         # return self.render_to_response(self.get_context_data(form=form))

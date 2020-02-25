@@ -20,6 +20,7 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
         context = super().get_context_data(**kwargs)
         context['menu'] = 'home'
         context['workoutsTotal'] = Workout.objects.belongsTo(self.request.user).count()
+        context['runsTotal'] = Run.objects.belongsTo(self.request.user).count()
         context['lastWorkout'] = Workout.objects.belongsTo(self.request.user).mostRecent()
         context['lastWorkoutExercises'] = WorkoutExercise.objects.getForWorkout(context['lastWorkout'])
         context['runTotal'] = Run.objects.belongsTo(self.request.user).totalDistance()

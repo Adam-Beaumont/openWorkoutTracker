@@ -6,7 +6,7 @@
   {% block content %}
 <div class="login-box">
   <div class="login-logo">
-    <b>OpenWorkoutTracker</b>
+    <img class="login-logo-image" src="/static/workouttracker/img/android-chrome-192x192.png" alt="OpenWorkoutTracker Logo" /> <b>Open</b>WorkoutTracker
     <br/>
     <small>Login</small>
   </div>
@@ -31,17 +31,19 @@
         {{ form.password|add_class:"form-control" }}
         <span class="fa fa-key form-control-feedback"></span>
       </div>
+      <div class="container-fluid">
       <div class="row">
-        <div class="col-xs-8">
+        <div class="col-8">
           <div class="checkbox">
               {{ form.remember }}
               <label for="checkbox">Remember Me</label>
           </div>
         </div>
-        <div class="col-xs-4">
-          <button type="submit" value="login" class="btn btn-primary btn-block btn-flat">Sign In</button>
+        <div class="col-4">
+          <button type="submit" value="login" class="btn btn-primary">Sign In</button>
         </div>
       </div>
+    </div>
     </form>
     <br>
       <a class="button secondaryAction" href="{% url 'account_reset_password' %}">Lost Password?</a>

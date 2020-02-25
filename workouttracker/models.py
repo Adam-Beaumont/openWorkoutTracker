@@ -48,7 +48,13 @@ class WorkoutQuerySet(models.QuerySet):
         return self.order_by('date')[:5]
 
     def mostRecent(self):
-        return self.order_by('-date')[0]
+        if self.count()==1:
+            return self.get()
+        else:
+            if self.count()==0:
+                return self.order_by('-date')[:1]
+            else:
+                return self.order_by('-date')[:1].get()
 
     def belongsTo(self, user):
         return self.filter(user=user)
@@ -67,7 +73,6 @@ class Workout(models.Model):
     @classmethod
     def create(cls, description, user ):
         workout = cls(description=description, user=user)
-        # do something with the book
         return workout
 
     def __str__(self):
@@ -113,7 +118,13 @@ class RunQuerySet(models.QuerySet):
         return self.filter(user=user)
 
     def mostRecent(self):
-        return self.order_by('-date')[0]
+        if self.count()==1:
+            return self.get()
+        else:
+            if self.count()==0:
+                return self.order_by('-date')[:1]
+            else:
+                return self.order_by('-date')[:1].get()
 
     def totalDistance(self):
         return self.aggregate(Sum('distance'))['distance__sum']
@@ -184,6 +195,11 @@ class WorkoutExercise(models.Model):
                                     blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     objects = WorkoutExerciseQuerySet.as_manager()
+    
+    @classmethod
+    def create(cls, title, description, sets, reps, workout_id, user ):
+        workoutExercise = cls(title=title, description=description,sets=sets,reps=reps,workout_id=workout_id, user=user)
+        return workoutExercise
 
     def __str__(self):
         return self.title
