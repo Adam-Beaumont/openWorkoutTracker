@@ -26,8 +26,20 @@ def populate_default_exercises(sender,instance,created,**kwargs):
             instance
             )
             newExercise.save()
-        
 
+# -------------------For Management of Demo Accounts------------------------
+class DemoManager(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    isDemo = models.BooleanField(default=False)
+
+@receiver(post_save, sender=User)
+def create_demo_manager(sender, instance, created, **kwargs):
+    if created:
+        DemoManager.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_demo_manager(sender, instance, **kwargs):
+    instance.demomanager.save()
 
 # -------------------------- Models ----------------------------------------
 
