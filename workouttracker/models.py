@@ -7,6 +7,29 @@ from django import forms
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+# ---------------------- Signal Recievers ---------------------------------
+
+# Copies data from the "defaultdata" user into the new profile 
+@receiver(post_save, sender=User)
+def populate_default_exercises(sender,instance,created,**kwargs):
+    if created:
+        print(instance.id)
+        for exercise in Exercise.objects.filter(user_id=4):
+            newExercise = Exercise.create(
+            getattr(exercise,'title'),
+            getattr(exercise,'description'),
+            getattr(exercise,'sets'),
+            getattr(exercise,'reps'),
+            instance
+            )
+            newExercise.save()
+        
+
+
+# -------------------------- Models ----------------------------------------
 
 class RoutineQuerySet(models.QuerySet):
     def last_10(self):
@@ -17,8 +40,6 @@ class RoutineQuerySet(models.QuerySet):
 
     def routine(self, routine):
         return self.filter(routine=routine)
-
-# -------------------------- Adam's Stuff ----------------------------------------
 
 class Routine(models.Model):
     name = models.CharField(max_length=64)
@@ -106,6 +127,11 @@ class Exercise(models.Model):
 
     def get_absolute_url(self):
         return reverse('exercise_update', args=[self.pk])
+
+    @classmethod
+    def create(cls, title, description, sets, reps, user ):
+        exercise = cls(title=title, description=description,sets=sets,reps=reps, user=user)
+        return exercise
 
 class RunQuerySet(models.QuerySet):
     def dateDescending(self):
